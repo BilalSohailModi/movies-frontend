@@ -1,15 +1,18 @@
+import {
+  CreateMovie,
+  iPagintedResults,
+  Movie,
+} from "../interfaces/movie.interface";
 import axios from "./axiosInstance";
 
-interface Movie {
-  id?: string;
-  title: string;
-  year: number;
-  poster: string; // Assuming poster is a URL string
-}
-
-export const fetchMovies = async (): Promise<Movie[]> => {
+export const fetchMovies = async (data: {
+  offset: number;
+  limit: number;
+}): Promise<iPagintedResults<Movie>> => {
   try {
-    const response = await axios.get<Movie[]>("/movies");
+    const response = await axios.get<Movie[]>("/movie", {
+      params: data,
+    });
     return response.data;
   } catch (error) {
     throw new Error("Fetching movies failed");
@@ -18,7 +21,11 @@ export const fetchMovies = async (): Promise<Movie[]> => {
 
 export const createMovie = async (movieData: FormData): Promise<Movie> => {
   try {
-    const response = await axios.post<Movie>("/movies", movieData);
+    const response = await axios.post<Movie>("/movie", movieData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error("Creating movie failed");
@@ -27,20 +34,12 @@ export const createMovie = async (movieData: FormData): Promise<Movie> => {
 
 export const updateMovie = async (
   id: string,
-  movieData: Partial<Movie>
+  movieData: FormData
 ): Promise<Movie> => {
   try {
-    const response = await axios.put<Movie>(`/movies/${id}`, movieData);
+    const response = await axios.put<Movie>(`/movie/${id}`, movieData);
     return response.data;
   } catch (error) {
     throw new Error("Updating movie failed");
-  }
-};
-
-export const deleteMovie = async (id: string): Promise<void> => {
-  try {
-    await axios.delete(`/movies/${id}`);
-  } catch (error) {
-    throw new Error("Deleting movie failed");
   }
 };

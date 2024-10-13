@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Movies.module.css";
 import Image from "next/image";
 import { logout } from "../services/authService";
@@ -9,21 +9,38 @@ import { useAtom } from "jotai";
 import { userState } from "../jotai/user.jotai";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
+import { iPagintedResults, Movie } from "../interfaces/movie.interface";
+import { fetchMovies } from "../services/movieService";
 
-const moviesData = [
-  { title: "Movie 1", year: "2021", imageUrl: "/path/to/image1.jpg" },
-  { title: "Movie 2", year: "2021", imageUrl: "/path/to/image2.jpg" },
-  { title: "Movie 3", year: "2021", imageUrl: "/path/to/image3.jpg" },
-  { title: "Movie 4", year: "2021", imageUrl: "/path/to/image4.jpg" },
-  { title: "Movie 5", year: "2021", imageUrl: "/path/to/image5.jpg" },
-  { title: "Movie 6", year: "2021", imageUrl: "/path/to/image6.jpg" },
-];
-
+const PAGE_LIMIT = 8;
 const Movies: React.FC = () => {
   const router = useRouter();
   const [user] = useAtom(userState);
-  console.log({ user });
+  const [activePage, setActivePage] = useState(1);
 
+  const [movies, setMovies] = useState<iPagintedResults<Movie>>();
+  const getMovies = async () => {
+    try {
+      const response = await fetchMovies({
+        limit: PAGE_LIMIT,
+        offset: (activePage - 1) * PAGE_LIMIT,
+      });
+      setMovies(response);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getMovies();
+  }, [activePage]);
+
+  const onPageChange = (page: number) => {
+    if (page == activePage) return;
+    setActivePage(page);
+  };
+
+  function getPageNumbers(TotalCount: number): number[] {
+    const size = Math.ceil(TotalCount / PAGE_LIMIT);
+    return Array.from({ length: size }, (_, index) => index + 1);
+  }
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -43,26 +60,63 @@ const Movies: React.FC = () => {
         </button>
       </header>
       <div className={styles.grid}>
-        {moviesData.map((movie, index) => (
+        {movies?.PageResult.map((movie, index) => (
           <div className={styles.card} key={index}>
             <Image
-              src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+              src={movie.poster}
               alt="External Image"
               width={500}
               height={300}
             />
 
             <h2 className={styles.movieTitle}>{movie.title}</h2>
-            <p className={styles.year}>{movie.year}</p>
+            <p className={styles.year}>{movie.publishingYear}</p>
           </div>
         ))}
       </div>
-      <footer className={styles.pagination}>
-        <button className={styles.paginationButton}>Prev</button>
-        <span className={styles.pageNumber}>1</span>
-        <button className={styles.paginationButton}>2</button>
-        <button className={styles.paginationButton}>Next</button>
-      </footer>
+      {movies ? (
+        <footer className={styles.pagination}>
+          <button
+            disabled={!movies.HasPreviousPage}
+            className={`${styles.paginationButton} ${
+              !movies.HasPreviousPage ? styles.disabledButton : ""
+            }`}
+            onClick={() => onPageChange(activePage - 1)}
+          >
+            Prev
+          </button>
+          {getPageNumbers(movies.TotalCount).map((item) => {
+            return (
+              <button
+                className={
+                  activePage == item
+                    ? styles.paginationButton
+                    : styles.inActivePage
+                }
+                onClick={() => onPageChange(item)}
+              >
+                {item}
+              </button>
+            );
+          })}
+          {/* <span
+            className={styles.pageNumber}
+            onClick={() => onPageChange(activePage)}
+          >
+            {activePage}
+          </span> */}
+
+          <button
+            className={`${styles.paginationButton} ${
+              !movies.HasNextPage ? styles.disabledButton : ""
+            }`}
+            onClick={() => onPageChange(activePage + 1)}
+            disabled={!movies.HasNextPage}
+          >
+            Next
+          </button>
+        </footer>
+      ) : null}
     </div>
   );
 };

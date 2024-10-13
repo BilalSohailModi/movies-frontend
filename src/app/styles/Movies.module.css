@@ -75,3 +75,6 @@
   /* color: #ffdd57;  */
   font-size: 1.5rem; /* Adjust the size of the icon */
 }
+.disabledButton{
+  opacity: 0.5;
+}

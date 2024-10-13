@@ -2,13 +2,16 @@
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import styles from "../../styles/CreateMovie.module.css";
+import { createMovie } from "@/app/services/movieService";
+import { useRouter } from "next/navigation";
+import fs from "fs";
 
 const CreateMovie = () => {
   const [movieTitle, setMovieTitle] = useState("");
   const [publishingYear, setPublishingYear] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+  const router = useRouter();
   const onDrop = (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     setImageFile(file);
@@ -17,10 +20,30 @@ const CreateMovie = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic
-    console.log("Submitting:", { movieTitle, publishingYear, imageFile });
+
+    if (!imageFile) {
+      alert("Please upload an image.");
+      return;
+    }
+
+    const formData = new FormData();
+
+    // Append form data
+    formData.append("title", movieTitle);
+    formData.append("publishingYear", publishingYear);
+
+    if (imageFile) {
+      formData.append("poster", imageFile);
+    }
+
+    try {
+      await createMovie(formData);
+      router.push("/movies");
+    } catch (error: any) {
+      console.error(error?.message);
+    }
   };
 
   const handleCancel = () => {
@@ -57,6 +80,7 @@ const CreateMovie = () => {
             type="text"
             placeholder="Title"
             value={movieTitle}
+            required
             onChange={(e) => setMovieTitle(e.target.value)}
             className={styles.inputField}
           />
@@ -64,6 +88,7 @@ const CreateMovie = () => {
             type="number"
             placeholder="Publishing year"
             value={publishingYear}
+            required
             onChange={(e) => setPublishingYear(e.target.value)}
             className={styles.inputField}
           />
