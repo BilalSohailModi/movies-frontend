@@ -32,3 +32,22 @@ color: #FFFFFF;
  &.addButton:hover {
   background-color: #0d7a4e;
   }
+
+
+
+  /* Responsive Design for Mobile */
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+    max-width: 100%;
+    padding-bottom: 150px;
+  }
+  .title{
+font-weight: 600;
+font-size: 32px;
+line-height: 40px;
+color: #FFFFFF;
+
+
+  }
+}
