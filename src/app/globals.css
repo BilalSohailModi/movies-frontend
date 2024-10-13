@@ -55,7 +55,7 @@ a {
 }
 
 .wave {
-  background: url(../app/images/Vector.svg);
+  background: url(/images/Vector.svg);
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
@@ -66,7 +66,7 @@ a {
 }
 .wave2{
   left: 0;
-  background: url(../app/images/Vector2.svg) ;
+  background: url(/images/Vector2.svg) ;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -95,9 +95,9 @@ a {
 /* Responsive Design for Mobile */
 @media (max-width: 600px) {
   .wave {
-    background: url(../app/images/Vector-sm.svg);
+    background: url(/images/Vector-sm.svg);
   }
   .wave2{
-    background: url(../app/images/Vector2-sm.svg) ;
+    background: url(/images/Vector2-sm.svg) ;
   }
 }
