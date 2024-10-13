@@ -13,6 +13,8 @@ const SignIn: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
   const [, setUser] = useAtom(userState);
+  const [error, setError] = useState<string>("");
+  const [showError, setShowError] = useState<boolean>(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -35,6 +37,8 @@ const SignIn: React.FC = () => {
       // Redirect user or save the auth token as needed
     } catch (error: any) {
       console.error(error?.message);
+      setError(error?.message || "something went wrong");
+      setShowError(true);
       // Handle error (show error message)
     }
   };
@@ -75,7 +79,7 @@ const SignIn: React.FC = () => {
               Remember me
             </label>
           </div>
-
+          {showError ? <p className={styles.error}>{error}</p> : <></>}
           <button className={styles.loginButton} type="submit">
             Login
           </button>

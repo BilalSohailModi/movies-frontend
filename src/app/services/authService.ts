@@ -22,8 +22,12 @@ export const login = async (credentials: Credentials): Promise<User> => {
     localStorage.setItem("token", access_token);
 
     return response.data;
-  } catch (error) {
-    throw new Error("Login failed");
+  } catch (error: any) {
+    if (typeof error.response.data?.message === "object")
+      throw new Error(
+        error.response.data?.message?.join(",") || "Login failed"
+      );
+    throw new Error(error.response.data?.message);
   }
 };
 
@@ -35,10 +39,11 @@ export const signup = async (userData: SignUp): Promise<User> => {
     return response.data;
   } catch (error: any) {
     if (typeof error.response.data?.message === "object")
-      throw new Error(error.response.data?.message.join(","));
+      throw new Error(
+        error.response.data?.message?.join(",") || "Signup failed"
+      );
     throw new Error(error.response.data?.message);
   }
-  throw new Error("Signup failed");
 };
 
 export const logout = (router: AppRouterInstance) => {
