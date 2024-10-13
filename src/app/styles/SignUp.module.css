@@ -59,7 +59,9 @@ margin-bottom: 1.5rem;
 }
 
 .error {
-    color:red
+    color:#e44343;
+  margin-bottom: 12px;
+
 }
 
 /* Responsive Design for Mobile */

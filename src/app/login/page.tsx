@@ -73,6 +73,7 @@ const SignIn: React.FC = () => {
               required
             />
           </div>
+          {showError ? <p className={styles.error}>{error}</p> : <></>}
 
           <div className={styles.rememberMe}>
             <label>
@@ -80,7 +81,7 @@ const SignIn: React.FC = () => {
               Remember me
             </label>
           </div>
-          {showError ? <p className={styles.error}>{error}</p> : <></>}
+          
           <button className={styles.loginButton} type="submit">
             Login
           </button>
