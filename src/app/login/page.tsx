@@ -80,7 +80,7 @@ const SignIn: React.FC = () => {
             Login
           </button>
         </form>
-        <p>
+        <p className={styles.text}>
           Don't have an account?
           <Link href="/signUp" style={{ marginTop: "10px" }}>
             Create Account

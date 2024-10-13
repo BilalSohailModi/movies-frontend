@@ -102,7 +102,7 @@ const SignUp: React.FC = () => {
         </button>
       </form>
 
-      <p>
+      <p className={styles.text}>
         Already have an account?
         <Link href="/login">Login</Link>
       </p>

@@ -27,6 +27,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
+        <div className="ocean">
+  <div className="wave"></div>
+  <div className="wave wave2"></div>
+</div>
       </body>
     </html>
   );
