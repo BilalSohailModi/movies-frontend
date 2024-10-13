@@ -29,7 +29,7 @@ const Movies: React.FC = () => {
       <header className={styles.header}>
         <h1>
           My Movies
-          <Link href="/createMovie" passHref>
+          <Link href="/movies/create" passHref>
             <FaPlus className={styles.icon} />
           </Link>
         </h1>
