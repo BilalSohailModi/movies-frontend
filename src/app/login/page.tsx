@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import styles from "../styles/SignIn.module.css";
 import { login, me } from "../services/authService";
 
@@ -15,6 +15,7 @@ const SignIn: React.FC = () => {
   const [, setUser] = useAtom(userState);
   const [error, setError] = useState<string>("");
   const [showError, setShowError] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -32,7 +33,7 @@ const SignIn: React.FC = () => {
 
     // Handle form submission logic (e.g., API call)
     try {
-      const user = await login({ email, password });
+      await login({ email, password }, rememberMe);
       setShowError(false);
       router.push("/movies");
       // Redirect user or save the auth token as needed
@@ -42,6 +43,10 @@ const SignIn: React.FC = () => {
       setShowError(true);
       // Handle error (show error message)
     }
+  };
+
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(event.target.checked);
   };
 
   return (
@@ -77,11 +82,11 @@ const SignIn: React.FC = () => {
 
           <div className={styles.rememberMe}>
             <label>
-              <input type="checkbox" />
+              <input type="checkbox" onChange={handleCheckboxChange} />
               Remember me
             </label>
           </div>
-          
+
           <button className={styles.loginButton} type="submit">
             Login
           </button>
