@@ -1,13 +1,13 @@
-"use client";
 import { useEffect, useState } from "react";
 import { me } from "../services/authService";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { userState } from "../jotai/user.jotai";
-// Assuming axios is configured in this file
 
-const withAuth = (WrappedComponent: React.ComponentType) => {
-  const AuthGuard = (props: any) => {
+const withAuth = <P extends object>(
+  WrappedComponent: React.ComponentType<P>
+) => {
+  const AuthGuard = (props: P) => {
     const [, setUser] = useAtom(userState);
     const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
@@ -17,25 +17,22 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
     useEffect(() => {
       const checkAuth = async () => {
         try {
-          // Call the /me API to check authentication
           const response = await me();
           setUser(response);
           setIsAuthenticated(true);
         } catch (error) {
-          setIsAuthenticated(false); // User is not authenticated
-          router.push("/login"); // Redirect to login if not authenticated
+          setIsAuthenticated(false);
+          router.push("/login");
         }
       };
 
       checkAuth();
     }, [router]);
 
-    // Show a loading spinner while checking authentication
     if (isAuthenticated === null) {
-      return <div>Loading...</div>; // Optional: Replace with a spinner
+      return <div>Loading...</div>;
     }
 
-    // If authenticated, render the wrapped component
     return isAuthenticated ? <WrappedComponent {...props} /> : null;
   };
 

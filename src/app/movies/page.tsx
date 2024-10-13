@@ -43,7 +43,7 @@ const Movies: React.FC = () => {
     return Array.from({ length: size }, (_, index) => index + 1);
   }
 
-  return movies?.PageResult.length !== 0 ? (
+  return movies?.PageResult.length === 0 ? (
     <EmptyMovieList />
   ) : (
     <div className={styles.container}>
