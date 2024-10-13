@@ -33,6 +33,7 @@ const SignIn: React.FC = () => {
     // Handle form submission logic (e.g., API call)
     try {
       const user = await login({ email, password });
+      setShowError(false);
       router.push("/movies");
       // Redirect user or save the auth token as needed
     } catch (error: any) {

@@ -42,6 +42,7 @@ const SignUp: React.FC = () => {
         firstName,
         lastName,
       });
+      setShowError(false);
       router.push("/movies");
     } catch (error: any) {
       console.error(error?.message);
