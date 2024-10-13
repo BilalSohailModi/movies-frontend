@@ -11,6 +11,7 @@ import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 import { iPagintedResults, Movie } from "../interfaces/movie.interface";
 import { fetchMovies } from "../services/movieService";
+import EmptyMovieList from "../components/EmptyMovieList";
 
 const PAGE_LIMIT = 8;
 const Movies: React.FC = () => {
@@ -41,7 +42,10 @@ const Movies: React.FC = () => {
     const size = Math.ceil(TotalCount / PAGE_LIMIT);
     return Array.from({ length: size }, (_, index) => index + 1);
   }
-  return (
+
+  return movies?.PageResult.length !== 0 ? (
+    <EmptyMovieList />
+  ) : (
     <div className={styles.container}>
       <header className={styles.header}>
         <h1>

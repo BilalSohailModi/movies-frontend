@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #0e3b4f; /* Change as per your theme */
+}
+
+.message{
+  color: white;
+  margin-bottom: 20px;
+}
+
+.addButton {
+  background-color: #1abf78;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+ &.addButton:hover {
+    background-color: #17a769;
+  }
