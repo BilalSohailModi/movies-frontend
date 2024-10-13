@@ -1,6 +1,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --bg-main: #093545;
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,10 +20,11 @@ body {
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: var(--bg-main);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
 }
 
 * {
@@ -29,7 +32,9 @@ body {
   padding: 0;
   margin: 0;
 }
-
+::placeholder{
+  color: #fff;
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -39,4 +44,32 @@ a {
   html {
     color-scheme: dark;
   }
+}
+.ocean {
+  height: 2%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.wave {
+  background: url(../app/images/Vector.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  right: 0;
+  height: 111px;
+}
+.wave2{
+  left: 0;
+  background: url(../app/images/Vector2.svg) ;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.wave:nth-of-type(2) {
+  bottom: 0;
+  opacity: 1;
 }
