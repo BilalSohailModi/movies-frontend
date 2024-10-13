@@ -4,7 +4,7 @@ import { AxiosInstance, AxiosResponse, AxiosRequestConfig } from "axios";
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
-  timeout: 10000, // Timeout after 10 seconds
+  timeout: 120000, // Timeout after 120 seconds
   headers: {
     "Content-Type": "application/json",
   },

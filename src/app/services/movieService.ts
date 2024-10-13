@@ -28,6 +28,7 @@ export const createMovie = async (movieData: FormData): Promise<Movie> => {
     });
     return response.data;
   } catch (error) {
+    console.log(error);
     throw new Error("Creating movie failed");
   }
 };
