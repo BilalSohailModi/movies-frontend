@@ -29,12 +29,8 @@ const SignIn: React.FC = () => {
     e.preventDefault();
 
     // Handle form submission logic (e.g., API call)
-    console.log({ email, password });
     try {
       const user = await login({ email, password });
-
-      console.log("Login successful", user);
-
       router.push("/movies");
       // Redirect user or save the auth token as needed
     } catch (error: any) {

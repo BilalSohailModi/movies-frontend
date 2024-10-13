@@ -18,7 +18,6 @@ export const login = async (credentials: Credentials): Promise<User> => {
   try {
     const response = await axios.post<User>("/auth/signin", credentials);
     const { access_token } = response.data;
-    console.log("token", { access_token });
     // Store token in localStorage
     localStorage.setItem("token", access_token);
 
@@ -44,7 +43,6 @@ export const signup = async (userData: SignUp): Promise<User> => {
 
 export const logout = (router: AppRouterInstance) => {
   localStorage.removeItem("token");
-  console.log("Logged out");
   router.push("/login");
   // Optionally redirect the user to the login page
 };

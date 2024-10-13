@@ -61,7 +61,13 @@ const Movies: React.FC = () => {
       </header>
       <div className={styles.grid}>
         {movies?.PageResult.map((movie, index) => (
-          <div className={styles.card} key={index}>
+          <div
+            className={styles.card}
+            key={index}
+            onClick={() => {
+              router.push(`/movies/${movie.id}`);
+            }}
+          >
             <Image
               src={movie.poster}
               alt="External Image"
@@ -99,13 +105,6 @@ const Movies: React.FC = () => {
               </button>
             );
           })}
-          {/* <span
-            className={styles.pageNumber}
-            onClick={() => onPageChange(activePage)}
-          >
-            {activePage}
-          </span> */}
-
           <button
             className={`${styles.paginationButton} ${
               !movies.HasNextPage ? styles.disabledButton : ""

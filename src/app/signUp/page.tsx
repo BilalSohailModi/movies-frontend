@@ -42,7 +42,6 @@ const SignUp: React.FC = () => {
         firstName,
         lastName,
       });
-      console.log("SignUp successful", user);
       router.push("/movies");
     } catch (error: any) {
       console.error(error?.message);

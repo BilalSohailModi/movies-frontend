@@ -32,12 +32,26 @@ export const createMovie = async (movieData: FormData): Promise<Movie> => {
   }
 };
 
+export const getSingleMovie = async (movieId: string): Promise<Movie> => {
+  try {
+    const response = await axios.get<Movie>(`/movie/${movieId}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("fetching movie failed");
+  }
+};
+
 export const updateMovie = async (
   id: string,
   movieData: FormData
 ): Promise<Movie> => {
   try {
-    const response = await axios.put<Movie>(`/movie/${id}`, movieData);
+    const response = await axios.patch<Movie>(`/movie/${id}`, movieData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error("Updating movie failed");
