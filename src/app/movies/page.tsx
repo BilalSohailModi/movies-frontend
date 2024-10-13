@@ -12,13 +12,15 @@ import { FaPlus } from "react-icons/fa";
 import { iPagintedResults, Movie } from "../interfaces/movie.interface";
 import { fetchMovies } from "../services/movieService";
 import EmptyMovieList from "../components/EmptyMovieList";
+import { CiLogin } from "react-icons/ci";
+const logoutIcon = "/images/logout.svg";
 
 const PAGE_LIMIT = 8;
 const Movies: React.FC = () => {
   const router = useRouter();
   const [user] = useAtom(userState);
   const [activePage, setActivePage] = useState(1);
-
+  const [isMobile, setIsMobile] = useState(false);
   const [movies, setMovies] = useState<iPagintedResults<Movie>>();
   const getMovies = async () => {
     try {
@@ -43,6 +45,19 @@ const Movies: React.FC = () => {
     return Array.from({ length: size }, (_, index) => index + 1);
   }
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600); // Adjust the breakpoint as needed
+    };
+
+    handleResize(); // Check on initial load
+    window.addEventListener("resize", handleResize); // Check on resize
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Cleanup on unmount
+    };
+  }, []);
+
   return movies?.PageResult.length === 0 ? (
     <EmptyMovieList />
   ) : (
@@ -60,7 +75,23 @@ const Movies: React.FC = () => {
             logout(router);
           }}
         >
-          Logout
+          {!isMobile && (
+            <>
+              Logout
+              <img
+                src={logoutIcon}
+                className={styles.logoutIcon}
+                alt="logout icon"
+              />
+            </>
+          )}
+          {isMobile && (
+            <img
+              src={logoutIcon}
+              className={styles.logoutIcon}
+              alt="logout icon"
+            />
+          )}
         </button>
       </header>
       <div className={styles.grid}>

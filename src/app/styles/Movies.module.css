@@ -15,18 +15,34 @@ margin-bottom: 120px;
 
 }
 
-.logout {
-font-weight: 700;
-font-size: 16px;
-line-height: 24px;
-text-align: center;
-background-color: transparent;
-color: #FFFFFF;
-border: none;
-cursor: pointer;
 
+.logout {
+  display: flex;
+  align-items: center; /* Center the icon and text vertically */
+  justify-content: center; /* Center the content horizontally */
+  background-color: transparent; /* Optional: Set background color */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Add some padding */
+  cursor: pointer; /* Change cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
+.logout:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Change background on hover */
+}
+
+.logoutIcon {
+  margin-left: 8px; /* Add margin to the left for web */
+  width: 20px; /* Set width for the icon */
+  height: 20px; /* Set height for the icon */
+}
+
+/* Media query to adjust styles for mobile */
+@media (max-width: 600px) {
+  .logoutIcon {
+    margin-left: 0; /* Remove margin for mobile */
+  }
+}
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
