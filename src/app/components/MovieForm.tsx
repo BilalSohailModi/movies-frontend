@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import dropImg from "../images/drop-img.svg"
 import styles from "@/app/styles/MovieForm.module.css";
 import {
   createMovie,
@@ -99,15 +100,22 @@ const MovieForm = (props: iMoveForm) => {
         <div {...getRootProps()} className={styles.dropzone}>
           <input {...getInputProps()} />
           {isDragActive ? (
-            <p>Drop the image here...</p>
+            <p>
+            <img src={dropImg} className={styles.dropimage} alt="upload icon" />
+
+              Drop the image here...</p>
           ) : imagePreview ? (
             <img
               src={imagePreview}
               alt="Movie Preview"
               className={styles.imagePreview}
             />
+
           ) : (
-            <p>Drop an image here</p>
+            
+            <p>
+              <img src={dropImg} className={styles.dropimage} alt="upload icon" />
+              Drop an image here</p>
           )}
         </div>
 

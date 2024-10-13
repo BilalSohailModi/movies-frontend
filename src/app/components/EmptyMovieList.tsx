@@ -12,9 +12,9 @@ const EmptyMovieList = () => {
   return (
     <div className={styles.container}>
       <div className={styles.message}>Your movie list is empty</div>
-      <div className={styles.addButton} onClick={handleAddMovie}>
+      <button className={styles.addButton} onClick={handleAddMovie}>
         Add a new movie
-      </div>
+      </button>
     </div>
   );
 };
