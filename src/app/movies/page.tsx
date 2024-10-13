@@ -48,7 +48,7 @@ const Movies: React.FC = () => {
   ) : (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1>
+        <h1 className={styles.title}>
           My Movies
           <Link href="/movies/create" passHref>
             <FaPlus className={styles.icon} />
@@ -88,7 +88,7 @@ const Movies: React.FC = () => {
         <footer className={styles.pagination}>
           <button
             disabled={!movies.HasPreviousPage}
-            className={`${styles.paginationButton} ${
+            className={`${styles.prev} ${
               !movies.HasPreviousPage ? styles.disabledButton : ""
             }`}
             onClick={() => onPageChange(activePage - 1)}
@@ -110,7 +110,7 @@ const Movies: React.FC = () => {
             );
           })}
           <button
-            className={`${styles.paginationButton} ${
+            className={`${styles.next} ${
               !movies.HasNextPage ? styles.disabledButton : ""
             }`}
             onClick={() => onPageChange(activePage + 1)}

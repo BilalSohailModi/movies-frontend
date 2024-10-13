@@ -73,3 +73,30 @@ a {
   bottom: 0;
   opacity: 1;
 }
+.loader {
+  width: 40px;
+  height: 400px;
+  min-width: 400px;
+  min-height: 400px;
+  border: 10px solid #2BD17E;
+  border-top: 10px solid #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+
+
+
+/* Responsive Design for Mobile */
+@media (max-width: 600px) {
+  .wave {
+    background: url(../app/images/Vector-sm.svg);
+  }
+  .wave2{
+    background: url(../app/images/Vector2-sm.svg) ;
+  }
+}

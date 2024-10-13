@@ -88,9 +88,17 @@ height: 45px;
 @media (max-width: 600px) {
   .card {
     padding: 1.5rem;
+    max-width: 100%;
   }
 
   .title {
-    font-size: 1.75rem;
+font-weight: 600;
+font-size: 48px;
+line-height: 56px;
+text-align: center;
+color: #FFFFFF;
+margin-bottom: 40px;
+
+
   }
 }
