@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: any) => {
     if (error.response?.status === 401) {
-      if (!window.location.pathname.includes('/auth/login')) {
+      if (!window.location.pathname.includes('/auth/login') && !window.location.pathname.includes('/auth/signUp')) {
         window.location.href = '/auth/login'
       }
       console.error("Unauthorized - Token may be expired");
