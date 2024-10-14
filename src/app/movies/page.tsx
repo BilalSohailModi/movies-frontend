@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/Movies.module.css";
-import Image from "next/image";
 import { logout } from "../../services/authService";
 import { useRouter } from "next/navigation";
 import withAuth from "../../components/withAuth";
@@ -13,6 +12,8 @@ import { iPagintedResults, Movie } from "../../interfaces/movie.interface";
 import { fetchMovies } from "../../services/movieService";
 import { CiLogin } from "react-icons/ci";
 import EmptyMovieList from "@/components/EmptyMovieList";
+import MovieCard from "@/components/MovieCard";
+import PaginatationFooter from "@/components/PaginatationFooter";
 const logoutIcon = "/images/logout.svg";
 
 const PAGE_LIMIT = 8;
@@ -40,10 +41,6 @@ const Movies: React.FC = () => {
     setActivePage(page);
   };
 
-  function getPageNumbers(TotalCount: number): number[] {
-    const size = Math.ceil(TotalCount / PAGE_LIMIT);
-    return Array.from({ length: size }, (_, index) => index + 1);
-  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -96,58 +93,11 @@ const Movies: React.FC = () => {
       </header>
       <div className={styles.grid}>
         {movies?.PageResult.map((movie, index) => (
-          <div
-            className={styles.card}
-            key={index}
-            onClick={() => {
-              router.push(`/movies/${movie.id}`);
-            }}
-          >
-            <Image
-              src={movie.poster}
-              alt="External Image"
-              width={500}
-              height={300}
-            />
-
-            <h2 className={styles.movieTitle}>{movie.title}</h2>
-            <p className={styles.year}>{movie.publishingYear}</p>
-          </div>
+          <MovieCard movie={movie}></MovieCard>
         ))}
       </div>
       {movies ? (
-        <footer className={styles.pagination}>
-          <button
-            disabled={!movies.HasPreviousPage}
-            className={`${styles.prev} ${!movies.HasPreviousPage ? styles.disabledButton : ""
-              }`}
-            onClick={() => onPageChange(activePage - 1)}
-          >
-            Prev
-          </button>
-          {getPageNumbers(movies.TotalCount).map((item) => {
-            return (
-              <button
-                className={
-                  activePage == item
-                    ? styles.paginationButton
-                    : styles.inActivePage
-                }
-                onClick={() => onPageChange(item)}
-              >
-                {item}
-              </button>
-            );
-          })}
-          <button
-            className={`${styles.next} ${!movies.HasNextPage ? styles.disabledButton : ""
-              }`}
-            onClick={() => onPageChange(activePage + 1)}
-            disabled={!movies.HasNextPage}
-          >
-            Next
-          </button>
-        </footer>
+        <PaginatationFooter HasPreviousPage={movies.HasPreviousPage} HasNextPage={movies.HasNextPage} activePage={activePage} TotalCount={movies.TotalCount} PAGE_LIMIT={PAGE_LIMIT} onPageChange={onPageChange}></PaginatationFooter>
       ) : null}
     </div>
   );
