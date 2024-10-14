@@ -11,14 +11,6 @@ const axiosInstance: AxiosInstance = axios.create({
 });
 
 const getToken = (): string | null => {
-  const storedTime = localStorage.getItem("time"); // Retrieve stored time from localStorage
-  const currentTime = new Date().getTime(); // Get current time in milliseconds
-
-  if (storedTime && currentTime < Number(storedTime)) {
-    return localStorage.getItem("token");
-  } else if (storedTime) {
-    return null;
-  }
   return localStorage.getItem("token");
 };
 

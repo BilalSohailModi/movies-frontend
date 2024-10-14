@@ -19,16 +19,9 @@ export const login = async (
   rememberMe: boolean
 ): Promise<string> => {
   try {
-    const response = await axios.post<User>("/auth/signin", credentials);
+    const response = await axios.post<User>("/auth/signin", { ...credentials, rememberMe });
     const { access_token } = response.data;
-    // Store token in localStorage
-    if (!rememberMe) {
-      const currentTime = new Date();
-      localStorage.setItem(
-        "time",
-        new Date(currentTime.getTime() + 5 * 60000).getTime().toString()
-      );
-    } else localStorage.removeItem("time");
+
     localStorage.setItem("token", access_token);
     return access_token;
   } catch (error: any) {
