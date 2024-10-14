@@ -8,7 +8,7 @@ const withAuth = <P extends object>(
   WrappedComponent: React.ComponentType<P>
 ) => {
   const AuthGuard = (props: P) => {
-    const [, setUser] = useAtom(userState);
+    const [user, setUser] = useAtom(userState);
     const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
       null
@@ -17,12 +17,16 @@ const withAuth = <P extends object>(
     useEffect(() => {
       const checkAuth = async () => {
         try {
+          if (user) {
+            setIsAuthenticated(true);
+            return
+          }
           const response = await me();
           setUser(response);
           setIsAuthenticated(true);
         } catch (error) {
           setIsAuthenticated(false);
-          router.push("/login");
+          router.push("/auth/login");
         }
       };
 
@@ -30,7 +34,7 @@ const withAuth = <P extends object>(
     }, [router]);
 
     if (isAuthenticated === null) {
-      return <div>Loading...</div>;
+      return <div className="loading-text"> <h3>Loading...</h3></div>;
     }
 
     return isAuthenticated ? <WrappedComponent {...props} /> : null;

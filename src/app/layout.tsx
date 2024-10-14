@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Spinner from "../components/Spinner";
+import { Provider } from 'jotai';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,17 +26,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-        {/* <div className="loader"></div> */}
-        <div className="ocean">
-  <div className="wave"></div>
-  <div className="wave wave2"></div>
-</div>
+    <Provider>
+      <html lang="en">
+        <body className={`${geistSans.variable} ${geistMono.variable}`}>
 
-      </body>
+          {children}
+          {/* <Spinner></Spinner> */}
+          {/* <div className="loader"></div> */}
+          <div className="ocean">
+            <div className="wave"></div>
+            <div className="wave wave2"></div>
+          </div>
 
-    </html>
+        </body>
+
+      </html>
+    </Provider>
   );
 }

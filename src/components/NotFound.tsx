@@ -1,6 +1,6 @@
 // pages/404.js
 import React from "react";
-import styles from "@/app/styles/NotFound.module.css"; // Optional: for styling
+import styles from "../styles/NotFound.module.css"; // Optional: for styling
 
 interface Props {
   title: string;

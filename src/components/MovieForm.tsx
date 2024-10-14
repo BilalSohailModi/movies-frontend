@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
-import styles from "@/app/styles/MovieForm.module.css";
+import styles from "../styles/MovieForm.module.css";
 import {
   createMovie,
   updateMovie,
   getSingleMovie,
-} from "@/app/services/movieService";
+} from "@/services/movieService";
 import { useRouter } from "next/navigation";
 import NotFound from "./NotFound";
 

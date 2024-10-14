@@ -1,18 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import styles from "../styles/SignIn.module.css";
-import { login, me } from "../services/authService";
+import styles from "../../../styles/SignIn.module.css";
+import { login, me } from "../../../services/authService";
 
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
-import { userState } from "../jotai/user.jotai";
+import { userState } from "../../../jotai/user.jotai";
 import Link from "next/link";
+import Spinner from "../../../components/Spinner";
+import { loadingAtom } from "../../../jotai/loader.jotai";
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
   const [, setUser] = useAtom(userState);
+  const [, setLoader] = useAtom(loadingAtom);
   const [error, setError] = useState<string>("");
   const [showError, setShowError] = useState<boolean>(false);
 
@@ -22,7 +25,7 @@ const SignIn: React.FC = () => {
         const response = await me();
         setUser(response);
         router.push("/movies");
-      } catch (error) {}
+      } catch (error) { }
     };
 
     checkAuth();
@@ -32,6 +35,7 @@ const SignIn: React.FC = () => {
 
     // Handle form submission logic (e.g., API call)
     try {
+      setLoader(true)
       const user = await login({ email, password });
       setShowError(false);
       router.push("/movies");
@@ -42,13 +46,13 @@ const SignIn: React.FC = () => {
       setShowError(true);
       // Handle error (show error message)
     }
+    // setLoader(false)
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.card}>
         <h2 className={styles.title}>Sign in</h2>
-
         <form onSubmit={handleSubmit}>
           <div className={styles.inputGroup}>
             <label htmlFor="email">Email</label>
@@ -81,14 +85,17 @@ const SignIn: React.FC = () => {
               Remember me
             </label>
           </div>
-          
+          <Spinner></Spinner>
+
           <button className={styles.loginButton} type="submit">
-            Login
+            <div className={styles.buttonContainer}>
+              <p>Login</p>
+            </div>
           </button>
         </form>
         <p className={styles.text}>
           Don't have an account?
-          <Link href="/signUp" style={{ marginTop: "10px" }}>
+          <Link href="/auth//signUp" style={{ marginTop: "10px" }}>
             Create Account
           </Link>
         </p>

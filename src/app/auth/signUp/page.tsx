@@ -1,8 +1,8 @@
 "use client";
 // src/pages/signup.tsx
 import React, { useEffect, useState } from "react";
-import styles from "../styles/SignUp.module.css"; // Importing CSS module
-import { me, signup } from "../services/authService";
+import styles from "../../../styles/SignUp.module.css"; // Importing CSS module
+import { me, signup } from "../../../services/authService";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -22,7 +22,7 @@ const SignUp: React.FC = () => {
       try {
         const response = await me();
         router.push("/movies");
-      } catch (error) {}
+      } catch (error) { }
     };
 
     checkAuth();
@@ -105,7 +105,7 @@ const SignUp: React.FC = () => {
 
       <p className={styles.text}>
         Already have an account?
-        <Link href="/login">Login</Link>
+        <Link href="/auth/login">Login</Link>
       </p>
     </div>
   );

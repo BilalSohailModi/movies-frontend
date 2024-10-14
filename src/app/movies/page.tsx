@@ -1,18 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import styles from "../styles/Movies.module.css";
+import styles from "../../styles/Movies.module.css";
 import Image from "next/image";
-import { logout } from "../services/authService";
+import { logout } from "../../services/authService";
 import { useRouter } from "next/navigation";
-import withAuth from "../components/withAuth";
+import withAuth from "../../components/withAuth";
 import { useAtom } from "jotai";
-import { userState } from "../jotai/user.jotai";
+import { userState } from "../../jotai/user.jotai";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
-import { iPagintedResults, Movie } from "../interfaces/movie.interface";
-import { fetchMovies } from "../services/movieService";
-import EmptyMovieList from "../components/EmptyMovieList";
+import { iPagintedResults, Movie } from "../../interfaces/movie.interface";
+import { fetchMovies } from "../../services/movieService";
 import { CiLogin } from "react-icons/ci";
+import EmptyMovieList from "@/components/EmptyMovieList";
 const logoutIcon = "/images/logout.svg";
 
 const PAGE_LIMIT = 8;
@@ -29,7 +29,7 @@ const Movies: React.FC = () => {
         offset: (activePage - 1) * PAGE_LIMIT,
       });
       setMovies(response);
-    } catch (error) {}
+    } catch (error) { }
   };
   useEffect(() => {
     getMovies();
@@ -119,9 +119,8 @@ const Movies: React.FC = () => {
         <footer className={styles.pagination}>
           <button
             disabled={!movies.HasPreviousPage}
-            className={`${styles.prev} ${
-              !movies.HasPreviousPage ? styles.disabledButton : ""
-            }`}
+            className={`${styles.prev} ${!movies.HasPreviousPage ? styles.disabledButton : ""
+              }`}
             onClick={() => onPageChange(activePage - 1)}
           >
             Prev
@@ -141,9 +140,8 @@ const Movies: React.FC = () => {
             );
           })}
           <button
-            className={`${styles.next} ${
-              !movies.HasNextPage ? styles.disabledButton : ""
-            }`}
+            className={`${styles.next} ${!movies.HasNextPage ? styles.disabledButton : ""
+              }`}
             onClick={() => onPageChange(activePage + 1)}
             disabled={!movies.HasNextPage}
           >

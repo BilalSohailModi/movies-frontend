@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@/app/styles/EmptyMovieList.module.css";
+import styles from "../styles/EmptyMovieList.module.css";
 import { useRouter } from "next/navigation";
 
 const EmptyMovieList = () => {

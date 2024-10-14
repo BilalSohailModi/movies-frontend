@@ -48,7 +48,7 @@ export const signup = async (userData: SignUp): Promise<User> => {
 
 export const logout = (router: AppRouterInstance) => {
   localStorage.removeItem("token");
-  router.push("/login");
+  router.push("/auth/login");
   // Optionally redirect the user to the login page
 };
 
