@@ -14,14 +14,23 @@ interface SignUp {
   password: string;
 }
 
-export const login = async (credentials: Credentials): Promise<User> => {
+export const login = async (
+  credentials: Credentials,
+  rememberMe: boolean
+): Promise<string> => {
   try {
     const response = await axios.post<User>("/auth/signin", credentials);
     const { access_token } = response.data;
     // Store token in localStorage
+    if (!rememberMe) {
+      const currentTime = new Date();
+      localStorage.setItem(
+        "time",
+        new Date(currentTime.getTime() + 5 * 60000).getTime().toString()
+      );
+    } else localStorage.removeItem("time");
     localStorage.setItem("token", access_token);
-
-    return response.data;
+    return access_token;
   } catch (error: any) {
     if (typeof error.response.data?.message === "object")
       throw new Error(
@@ -48,6 +57,7 @@ export const signup = async (userData: SignUp): Promise<User> => {
 
 export const logout = (router: AppRouterInstance) => {
   localStorage.removeItem("token");
+  localStorage.removeItem("time");
   router.push("/auth/login");
   // Optionally redirect the user to the login page
 };
