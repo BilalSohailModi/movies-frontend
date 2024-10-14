@@ -14,6 +14,8 @@ import { CiLogin } from "react-icons/ci";
 import EmptyMovieList from "@/components/EmptyMovieList";
 import MovieCard from "@/components/MovieCard";
 import PaginatationFooter from "@/components/PaginatationFooter";
+import { loadingAtom } from "@/jotai/loader.jotai";
+import Spinner from "@/components/Spinner";
 const logoutIcon = "/images/logout.svg";
 
 const PAGE_LIMIT = 8;
@@ -23,14 +25,17 @@ const Movies: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
   const [movies, setMovies] = useState<iPagintedResults<Movie>>();
+  const [, setLoader] = useAtom(loadingAtom);
   const getMovies = async () => {
     try {
+      setLoader(true)
       const response = await fetchMovies({
         limit: PAGE_LIMIT,
         offset: (activePage - 1) * PAGE_LIMIT,
       });
       setMovies(response);
     } catch (error) { }
+    setLoader(false)
   };
   useEffect(() => {
     getMovies();
@@ -59,6 +64,7 @@ const Movies: React.FC = () => {
     <EmptyMovieList />
   ) : (
     <div className={styles.container}>
+      <Spinner></Spinner>
       <header className={styles.header}>
         <h1 className={styles.title}>
           My Movies

@@ -10,6 +10,9 @@ import {
 } from "@/services/movieService";
 import { useRouter } from "next/navigation";
 import NotFound from "./NotFound";
+import Spinner from "./Spinner";
+import { loadingAtom } from "@/jotai/loader.jotai";
+import { useAtom } from "jotai";
 
 const dropImg = "/images/drop-img.svg";
 interface iMoveForm {
@@ -21,6 +24,7 @@ const MovieForm = (props: iMoveForm) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [notFound, setNotFound] = useState(false);
+  const [, setLoader] = useAtom(loadingAtom);
   const router = useRouter();
   const onDrop = (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -49,12 +53,14 @@ const MovieForm = (props: iMoveForm) => {
     }
 
     try {
+      setLoader(true)
       if (props.movieId) await updateMovie(props.movieId, formData);
       else await createMovie(formData);
       router.push("/movies");
     } catch (error: any) {
       console.error(error?.message);
     }
+    setLoader(false)
   };
 
   const handleCancel = () => {
@@ -68,6 +74,7 @@ const MovieForm = (props: iMoveForm) => {
   useEffect(() => {
     const fetchMovie = async (movieId: string) => {
       try {
+        setLoader(true)
         const movie = await getSingleMovie(movieId);
         setMovieTitle(movie.title);
         setPublishingYear(movie.publishingYear);
@@ -75,6 +82,7 @@ const MovieForm = (props: iMoveForm) => {
       } catch (error) {
         setNotFound(true);
       }
+      setLoader(false)
     };
     if (props.movieId) {
       fetchMovie(props.movieId);
@@ -92,6 +100,7 @@ const MovieForm = (props: iMoveForm) => {
     );
   return (
     <div className={styles.container}>
+      <Spinner></Spinner>
       <h1 className={styles.title}>
         {props.movieId ? "Edit" : "Create a new movie"}
       </h1>

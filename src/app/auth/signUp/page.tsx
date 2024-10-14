@@ -5,10 +5,16 @@ import styles from "../../../styles/SignUp.module.css"; // Importing CSS module
 import { me, signup } from "../../../services/authService";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAtom } from "jotai";
+import { loadingAtom } from "@/jotai/loader.jotai";
+import { userState } from "@/jotai/user.jotai";
+import Spinner from "@/components/Spinner";
 
 const SignUp: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
+  const [, setLoader] = useAtom(loadingAtom);
+  const [, setUser] = useAtom(userState);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -33,15 +39,16 @@ const SignUp: React.FC = () => {
     // Handle sign-up logic here
     try {
       if (password !== confirmPassword) {
-        alert("passwords not matched");
-        throw { message: "passwords not matched" };
+        throw { message: "passwords doesn't matched" };
       }
+      setLoader(true)
       const user = await signup({
         email,
         password,
         firstName,
         lastName,
       });
+      setUser(user)
       setShowError(false);
       router.push("/movies");
     } catch (error: any) {
@@ -51,10 +58,12 @@ const SignUp: React.FC = () => {
 
       // Handle error (show error message)
     }
+    setLoader(false)
   };
 
   return (
     <div className={styles.container}>
+      <Spinner></Spinner>
       <h1 className={styles.title}>Sign Up</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <input

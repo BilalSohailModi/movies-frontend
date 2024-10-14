@@ -13,13 +13,13 @@ interface SignUp {
   email: string;
   password: string;
 }
-
+interface AuthResponse { data: User, access_token: string }
 export const login = async (
   credentials: Credentials,
   rememberMe: boolean
 ): Promise<string> => {
   try {
-    const response = await axios.post<User>("/auth/signin", { ...credentials, rememberMe });
+    const response = await axios.post<AuthResponse>("/auth/signin", { ...credentials, rememberMe }) as { data: AuthResponse };
     const { access_token } = response.data;
 
     localStorage.setItem("token", access_token);
@@ -35,10 +35,10 @@ export const login = async (
 
 export const signup = async (userData: SignUp): Promise<User> => {
   try {
-    const response = await axios.post<User>("/auth/signup", userData);
+    const response = await axios.post("/auth/signup", userData) as { data: AuthResponse };
     const { access_token } = response.data;
     localStorage.setItem("token", access_token);
-    return response.data;
+    return response.data.data;
   } catch (error: any) {
     if (typeof error.response.data?.message === "object")
       throw new Error(
